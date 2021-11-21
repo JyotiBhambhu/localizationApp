@@ -2,7 +2,9 @@ package com.jyoti.localization.di.components
 
 import com.jyoti.localization.MyApplication
 import com.jyoti.localization.di.modules.ActivitiesModule
-import com.jyoti.localization.di.modules.NetworkModule
+import com.jyoti.localization.di.modules.AppModule
+import com.jyoti.localization.di.modules.StorageModule
+import com.jyoti.localization.network.ConfigProvider
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 
@@ -10,14 +12,14 @@ import dagger.android.AndroidInjectionModule
     modules = [
         AndroidInjectionModule::class,
         ActivitiesModule::class,
-        NetworkModule::class,
-//        StorageModule::class
+        AppModule::class,
+        StorageModule::class
     ]
 )
 interface AppComponent {
 
     fun inject(myApplication: MyApplication)
-    fun inject (networkModule: NetworkModule)
-//    fun inject (storageModule: StorageModule)
+    fun inject (storageModule: StorageModule)
+    fun configProvider(): ConfigProvider
 
 }

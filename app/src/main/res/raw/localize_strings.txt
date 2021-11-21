@@ -1,0 +1,4 @@
+{
+"hi":[{"key": "hello_world", "value":"नमस्ते दुनिया"}],
+"zh":[{"key": "hello_world", "value":"你好，世界"}]
+}

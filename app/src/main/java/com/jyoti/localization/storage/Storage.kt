@@ -1,14 +1,13 @@
 package com.jyoti.localization.storage
 
-import android.content.Context
 import android.content.SharedPreferences
-import com.jyoti.localization.utils.LocaleUtil
+import com.jyoti.localization.network.model.CustomLocale
+import javax.inject.Inject
 
-class Storage constructor(private val context: Context) {
-    private var preferences: SharedPreferences = context.getSharedPreferences("sp", Context.MODE_PRIVATE)
+class Storage @Inject constructor(private val preferences: SharedPreferences) {
 
     fun getPreferredLocale(): String {
-        return preferences.getString("preferred_locale", LocaleUtil.OPTION_PHONE_LANGUAGE)!!
+        return preferences.getString("preferred_locale", CustomLocale.ENGLISH.locale) ?: CustomLocale.ENGLISH.locale
     }
 
     fun setPreferredLocale(localeCode: String) {

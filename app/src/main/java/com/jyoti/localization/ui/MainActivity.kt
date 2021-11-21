@@ -1,52 +1,79 @@
 package com.jyoti.localization.ui
 
-import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.jyoti.localization.R
-import dagger.android.AndroidInjection
-import javax.inject.Inject
-import com.google.android.material.internal.ContextUtils
-
-import android.content.ContextWrapper
-import android.view.View
-import android.widget.Button
-import androidx.lifecycle.ViewModelProvider
-import com.jyoti.localization.MyApplication
-import com.jyoti.localization.di.BaseActivity
+import com.jyoti.localization.databinding.ActivityMainBinding
 import com.jyoti.localization.network.model.CustomLocale
 import com.jyoti.localization.storage.Storage
-import com.jyoti.localization.utils.ContextUtil
-import com.jyoti.localization.utils.ContextUtil.Companion.updateLocale
-import com.jyoti.localization.utils.LocaleUtil
-import java.util.*
+import dagger.android.AndroidInjection
+import javax.inject.Inject
 
 
-class MainActivity : BaseActivity() {
+class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var viewModel: MainActivityViewModel
 
+    @Inject
+    lateinit var storage: Storage
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+        binding.networkDataProgressBar.visibility = View.VISIBLE
+        viewModel.setLocale(storage.getPreferredLocale())
+        viewModel.fetchLocalizedFile()
+
+        initListeners()
+        initObservers()
+
+    }
+
+    private fun initListeners(){
+        binding.btnChinese.setOnClickListener {
+            viewModel.setLocale(CustomLocale.CHINESE.locale)
+        }
+
+        binding.btnHindi.setOnClickListener {
+            viewModel.setLocale(CustomLocale.HINDI.locale)
+        }
+
+        binding.btnEnglish.setOnClickListener {
+            viewModel.setLocale(CustomLocale.ENGLISH.locale)
+        }
+    }
+
+    private fun initObservers() {
 
         viewModel.selLocaleLiveData.observe(this, {
-           setPreferredLocale(it)
+            refreshViews()
         })
+
+        viewModel.localLiveData.observe(this, {
+            binding.networkDataProgressBar.visibility = View.GONE
+            refreshViews()
+        })
+
     }
 
-    fun setChinese(view : View){
-        viewModel.setLocale(CustomLocale.CHINESE)
-    }
-
-    fun setHindi(view : View){
-        viewModel.setLocale(CustomLocale.HINDI)
-    }
-
-    fun setDefault(view : View) {
-        viewModel.setLocale(CustomLocale.ENGLISH)
+    private fun refreshViews(){
+        viewModel.apply {
+            binding.txvHello.setLocaleText(
+                this@MainActivity,
+                localLiveData.value,
+                selLocaleLiveData.value,
+                R.string.hello_world
+            )
+        }
     }
 
 
