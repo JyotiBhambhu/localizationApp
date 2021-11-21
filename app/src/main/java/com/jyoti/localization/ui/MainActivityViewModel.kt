@@ -5,11 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jyoti.localization.network.ConfigProvider
 import com.jyoti.localization.network.model.LocalisationDataClass
+import com.jyoti.localization.repo.LocalisationProvider
 import com.jyoti.localization.storage.Storage
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class MainActivityViewModel @Inject constructor(private val configProvider: ConfigProvider) : ViewModel() {
+//ToDo: Enhancements:
+//We can further separate repo layer from this layer
+class MainActivityViewModel @Inject constructor(private val localisationProvider: LocalisationProvider) : ViewModel() {
 
     @Inject
     lateinit var storage: Storage
@@ -25,15 +28,14 @@ class MainActivityViewModel @Inject constructor(private val configProvider: Conf
     val localLiveData: LiveData<LocalisationDataClass> = _localLiveData
 
 
-    fun setLocale(locale: String) {
+    fun setLocale(locale: String = storage.getPreferredLocale()) {
         _selLocaleLiveData.value = locale
         storage.setPreferredLocale(locale)
     }
 
      fun fetchLocalizedFile() {
          viewModelScope.launch {
-             val data = configProvider.fetch<LocalisationDataClass>(false)
-             _localLiveData.value = data
+             _localLiveData.value = localisationProvider.provideLocalisedFile()
          }
     }
 

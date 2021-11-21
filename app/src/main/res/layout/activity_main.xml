@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/_10_dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.core.widget.ContentLoadingProgressBar
@@ -15,6 +15,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txvNotLocalized"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/not_localized_text"
+        android:textSize="@dimen/_24_sp"
+        android:layout_marginTop="@dimen/_30_dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/txvHello"
@@ -33,26 +45,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_30_dp"
-        android:onClick="setDefault"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnChinese"
         app:layout_constraintTop_toBottomOf="@id/txvHello"
         style="@style/ButtonStyle"
-        android:text="@string/english"
-        tools:ignore="UsingOnClickInXml" />
+        android:text="@string/english" />
 
     <Button
         android:id="@+id/btnChinese"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="setChinese"
         app:layout_constraintBaseline_toBaselineOf="@id/btnEnglish"
         app:layout_constraintStart_toEndOf="@id/btnEnglish"
         app:layout_constraintEnd_toStartOf="@id/btnHindi"
         app:layout_constraintTop_toBottomOf="@id/txvHello"
         style="@style/ButtonStyle"
-        android:text="@string/chinese"
-        tools:ignore="UsingOnClickInXml" />
+        android:text="@string/chinese" />
 
     <Button
         android:id="@+id/btnHindi"
@@ -61,11 +69,9 @@
         app:layout_constraintStart_toEndOf="@id/btnChinese"
         app:layout_constraintBaseline_toBaselineOf="@id/btnEnglish"
         app:layout_constraintEnd_toEndOf="parent"
-        android:onClick="setHindi"
         app:layout_constraintTop_toBottomOf="@id/txvHello"
         style="@style/ButtonStyle"
-        android:text="@string/hindi"
-        tools:ignore="UsingOnClickInXml" />
+        android:text="@string/hindi" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

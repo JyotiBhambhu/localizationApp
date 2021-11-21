@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName
 
 data class LocalisationDataClass(
     @SerializedName("hi")
-    val hi: ArrayList<StringDataClass>,
+    var hi: ArrayList<StringDataClass>,
     @SerializedName("zh")
-    val zh: ArrayList<StringDataClass>,
+    var zh: ArrayList<StringDataClass>,
 ){
     data class StringDataClass(
         @SerializedName("key")
-        val key: String,
+        var key: String,
         @SerializedName("value")
-        val value: String
+        var value: String
     )
 }

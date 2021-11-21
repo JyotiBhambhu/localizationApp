@@ -16,9 +16,6 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModel: MainActivityViewModel
 
-    @Inject
-    lateinit var storage: Storage
-
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +26,8 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.networkDataProgressBar.visibility = View.VISIBLE
-        viewModel.setLocale(storage.getPreferredLocale())
+        binding.networkDataProgressBar.show()
+        viewModel.setLocale()
         viewModel.fetchLocalizedFile()
 
         initListeners()
@@ -72,6 +69,13 @@ class MainActivity : AppCompatActivity() {
                 localLiveData.value,
                 selLocaleLiveData.value,
                 R.string.hello_world
+            )
+
+            binding.txvNotLocalized.setLocaleText(
+                this@MainActivity,
+                localLiveData.value,
+                selLocaleLiveData.value,
+                R.string.not_localized_text
             )
         }
     }
